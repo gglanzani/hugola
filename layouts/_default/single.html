@@ -1,0 +1,38 @@
+{{ partial "header.html" . }}
+
+{{ partial "sidebar.html" . }}
+
+            <div id="main">
+                <div class="content">
+                    <div>
+                    <!-- A wrapper for all the blog posts -->
+                        <div class="posts">
+                        <section class="post">
+                            <header class="post-header">
+                            <h2 class="post-title"><a href="{{ .Site.BaseURL }}">{{ .Title }}</a></h2>
+                        
+                            <p class="post-meta">
+                                Posted on <a href="#" class="post-author">{{ .Date.Format "02 Jan 2006" }}</a>
+                            </p>
+                            </header>
+                        
+                            <div class="post-description">
+                            {{ .Content }}
+                            </div>
+                            <div>
+                            <script>
+                            $( ".blog-active" ).addClass( "menu-item-divided pure-menu-selected" );
+                            $( ".blog-active" ).removeClass( "blog-active" );
+                            </script>
+                            </div>
+                        </section>
+                        </div>
+                    </div>
+                </div>
+        
+        {{ partial "footer.html" . }}
+        
+            </div>
+        </div> <!-- closes layout class in sidebar.html -->
+    </body>
+</html>
