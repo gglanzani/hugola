@@ -10,7 +10,7 @@
                         {{ range .Paginator.Pages}}
                         <section class="post">
                             <header class="post-header">
-                            <h2 class="post-title"><a href="{{ .Site.BaseURL }}">{{ .Title }}</a></h2>
+                            <h1 class="post-title"><a href="{{ .Permalink }}">{{ .Title }}</a></h1>
                         
                             <p class="post-meta">
                                 Posted on <a href="#" class="post-author">{{ .Date.Format "02 Jan 2006" }}</a>

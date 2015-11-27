@@ -22,8 +22,9 @@
                             </div>
                             <div>
                             <script>
-                            $( ".blog-active" ).addClass( "menu-item-divided pure-menu-selected" );
-                            $( ".blog-active" ).removeClass( "blog-active" );
+                                window.onload = function() {
+                                document.getElementById("blog-active").className = "menu-item-divided pure-menu-selected pure-menu-item";
+                                };
                             </script>
                             </div>
                         </section>

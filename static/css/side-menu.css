@@ -11,6 +11,46 @@ body {
     height: auto;
 }
 
+a {
+    text-decoration: none;
+    color: rgb(61, 146, 201);
+}
+a:hover,
+a:focus {
+    text-decoration: underline;
+}
+
+h1 {
+    margin-top: 2em;
+    font-size: 200%;
+}
+
+/* footer */
+
+.footer {
+    text-align: center;
+    padding: 1em 0;
+}
+.footer a {
+    color: #ccc;
+    font-size: 80%;
+}
+.footer .pure-menu a:hover,
+.footer .pure-menu a:focus {
+    background: none;
+}
+
+.footer ul {
+    display: inline;
+}
+
+.footer li {
+    display: inline;
+    padding: 2em;
+}
+
+
+
 /*
 Add transition to containers so they can push in and out.
 */

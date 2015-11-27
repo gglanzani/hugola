@@ -9,7 +9,7 @@
                         <div class="posts">
                         <section class="post">
                             <header class="post-header">
-                            <h2 class="post-title"><a href="{{ .Site.BaseURL }}">{{ .Title }}</a></h2>
+                            <h1 class="post-title"><a href="{{ .Site.BaseURL }}">{{ .Title }}</a></h1>
                         
                             <p class="post-meta">
                                 Posted on <a href="#" class="post-author">{{ .Date.Format "02 Jan 2006" }}</a>
@@ -21,8 +21,9 @@
                             </div>
                             <div>
                             <script>
-                            $( ".blog-active" ).addClass( "menu-item-divided pure-menu-selected" );
-                            $( ".blog-active" ).removeClass( "blog-active" );
+                                window.onload = function() {
+                                document.getElementById("blog-active").className = "menu-item-divided pure-menu-selected pure-menu-item";
+                                };
                             </script>
                             </div>
                         </section>
@@ -32,7 +33,3 @@
         
         {{ partial "footer.html" . }}
         
-            </div>
-        </div> <!-- closes layout class in sidebar.html -->
-    </body>
-</html>
