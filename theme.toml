@@ -1,21 +1,16 @@
 # theme.toml template for a Hugo theme
 # See https://github.com/spf13/hugoThemes#themetoml for an example
 
-name = "Lanzani Nl"
+name = "hugola"
 license = "MIT"
-licenselink = "https://github.com/yourname/yourtheme/blob/master/LICENSE.md"
-description = ""
-homepage = "http://siteforthistheme.com/"
-tags = ["", ""]
+licenselink = "https://github.com/gglanzani/hugola/blob/master/LICENSE.md"
+description = "A simple hugo theme derived from purecss.io"
+homepage = "http://github.com/gglanzani/hugola"
+tags = ["purecss"]
 features = ["", ""]
 min_version = 0.14
 
 [author]
-  name = ""
-  homepage = ""
+  name = "Giovanni Lanzani"
+  homepage = "http://lanzani.nl"
 
-# If porting an existing theme
-[original]
-  name = ""
-  homepage = ""
-  repo = ""

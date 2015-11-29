@@ -1,0 +1,5 @@
+{{ if isset .Params "link" }}
+    <p>
+        <a href="{{ index .Params "link" }}">{{ index .Params "link_title" }}</a>
+    </p>
+{{ end }}

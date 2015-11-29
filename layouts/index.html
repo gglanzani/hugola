@@ -7,6 +7,7 @@
                     <div>
                     <!-- A wrapper for all the blog posts -->
                         <div class="posts">
+                        <h1 class="content-subhead">Recent Posts <a href="/post/">(all)</a></h1>
                         {{ range .Paginator.Pages}}
                         <section class="post">
                             <header class="post-header">
@@ -18,22 +19,24 @@
                             </header>
                         
                             <div class="post-description">
+                            {{ partial "is_link.html" .}}
                             {{ .Content }}
                             </div>
                             <div>
-                            <script>
-                                window.onload = function() {
-                                document.getElementById("blog-active").className = "menu-item-divided pure-menu-selected pure-menu-item";
-                                };
-                            </script>
+                            
                             </div>
                         </section>
                         {{ end }}
                         </div>
                     </div>
+                    {{ partial "pagination.html" . }}
                 </div>
-        
-        {{ partial "footer.html" . }}
+                <script>
+                    window.onload = function() {
+                    document.getElementById("blog-active").className = "menu-item-divided pure-menu-selected pure-menu-item";
+                    };
+                </script>
+            {{ partial "footer.html" . }}
         
             </div>
         </div> <!-- closes layout class in sidebar.html -->
