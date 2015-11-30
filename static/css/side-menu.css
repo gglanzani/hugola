@@ -301,3 +301,30 @@ Hides the menu at `48em`, but modify this based on your app's needs.
         left: 150px;
     }
 }
+
+/* buttons */
+.button-time,
+.button-job,
+.button-company,
+.button-location {
+    color: white;
+    border-radius: 4px;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+    margin: 2px;
+}
+
+.button-time {
+    background: #23517f; /* this is a green */
+}
+
+.button-job {
+    background: #3e4f5c; /* this is a maroon */
+}
+
+.button-company {
+    background: rgb(66, 184, 221); /* this is an orange */
+}
+
+.button-location {
+    background: #dd7527; /* this is a light blue */
+}
