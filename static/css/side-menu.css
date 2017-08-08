@@ -63,6 +63,11 @@ h1 {
     font-size: 50%;
 }
 
+.post-description {
+  font-family: 'Zilla Slab', serif;
+  font-size: 15pt;
+}
+
 /*
 Add transition to containers so they can push in and out.
 */
