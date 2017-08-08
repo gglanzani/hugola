@@ -1,6 +1,6 @@
 body {
     color: #777;
-    font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif;
+    font-family: 'Open Sans', Helvetica, Arial, sans-serif;
 }
 body {
     color: #777;
@@ -23,6 +23,7 @@ a:focus {
 h1 {
     margin-top: 2em;
     font-size: 200%;
+    line-height: 1.2em;
 }
 
 /* footer */
