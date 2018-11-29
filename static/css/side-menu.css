@@ -2,19 +2,18 @@ body {
     color: #777;
     font-family: 'Open Sans', Helvetica, Arial, sans-serif;
 }
-body {
-    color: #777;
+
+a {
+    text-decoration: none;
+    color: rgb(61, 146, 201);
 }
+
 
 .pure-img-responsive {
     max-width: 100%;
     height: auto;
 }
 
-a {
-    text-decoration: none;
-    color: rgb(61, 146, 201);
-}
 a:hover,
 a:focus {
     text-decoration: underline;
@@ -334,3 +333,21 @@ Hides the menu at `48em`, but modify this based on your app's needs.
 .button-location {
     background: #dd7527; /* this is a light blue */
 }
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #505050;
+    color: #F0F0F0;
+  }
+  a {
+    color: #AAA;
+  }
+  #menu .pure-menu-heading {
+     background: #234B71;
+  }
+  #menu .pure-menu-selected,
+    #menu .pure-menu-heading {
+        background: #234B71;
+    }
+}
+
