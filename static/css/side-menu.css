@@ -1,6 +1,6 @@
 body {
     color: #777;
-    font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "segoe ui", Roboto, "helvetica neue", Arial, "noto sans", sans-serif, "apple color emoji", "segoe ui emoji", "segoe ui symbol", "noto color emoji";
 }
 
 a {
@@ -64,8 +64,7 @@ h1 {
 }
 
 .post-description {
-  font-family: 'Signika', serif;
-  font-size: 15pt;
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "segoe ui", Roboto, "helvetica neue", Arial, "noto sans", sans-serif, "apple color emoji", "segoe ui emoji", "segoe ui symbol", "noto color emoji";
 }
 
 /*
