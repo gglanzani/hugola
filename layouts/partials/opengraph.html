@@ -1,0 +1,69 @@
+{{- if .IsPage }}
+{{- $iso8601 := "2006-01-02T15:04:05-07:00" -}}
+<meta property="article:section" content="{{ .Section }}" />
+{{ with .PublishDate }}<meta property="article:published_time" {{ .Format $iso8601 | printf "content=%q" | safeHTMLAttr }} />{{ end }}
+{{ with .Lastmod }}<meta property="article:modified_time" {{ .Format $iso8601 | printf "content=%q" | safeHTMLAttr }} />{{ end }}
+{{- end -}}
+
+{{- with .Params.audio }}<meta property="og:audio" content="{{ . }}" />{{ end }}
+{{- with .Params.locale }}<meta property="og:locale" content="{{ . }}" />{{ end }}
+{{- with .Site.Params.title }}<meta property="og:site_name" content="{{ . }}" />{{ end }}
+{{- with .Params.videos }}{{- range . }}
+<meta property="og:video" content="{{ . | absURL }}" />
+{{ end }}{{ end }}
+
+{{/* Generate opengraph image */}}
+{{- if .IsPage -}}
+  {{ $base := resources.Get "og_base.png" }}
+  {{ $boldFont := resources.Get "/Inter-SemiBold.ttf"}}
+
+  {{ $mediumFont := resources.Get "/Inter-Medium.ttf"}}
+  {{ $img := $base.Filter (images.Text .Page.Title (dict
+    "color" "#ffffff"
+    "size" 52
+    "linespacing" 2
+    "x" 40
+    "y" 50
+    "font" $boldFont
+  ))}}
+  {{ with .Page.Params.Snippet }}
+  {{ $str := . | plainify }}
+    {{ $img = $img.Filter (images.Text $str (dict
+      "color" "#ffffff"
+      "size" 32
+      "linespacing" 2
+      "x" 40
+      "y" 170
+      "font" $mediumFont
+    ))}} 
+  {{ else }}
+  {{ $str := .Content | truncate 400 | plainify }}
+    {{ $img = $img.Filter (images.Text $str (dict
+      "color" "#ffffff"
+      "size" 32
+      "linespacing" 2
+      "x" 40
+      "y" 170
+      "font" $mediumFont
+    ))}} 
+  {{ end }}
+  {{ $img = $img.Filter (images.Text .Permalink (dict
+    "color" "#ffffff"
+    "size" 32
+    "linespacing" 2
+    "x" 32
+    "y" 570
+    "font" $mediumFont
+  ))}} 
+  {{ $img = resources.Copy (path.Join .Page.RelPermalink "og.png") $img }}
+  <meta property="og:image" content="{{$img.Permalink}}" />
+  <meta property="og:image:width" content="{{$img.Width}}" />
+  <meta property="og:image:height" content="{{$img.Height}}" />
+  <meta name="twitter:image" content="{{$img.Permalink}}" />
+
+
+  <!-- Twitter metadata (used by other websites as well) -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="{{ .Title }}" />
+  <meta name="twitter:description" content="{{ with .Description }}{{ . }}{{ else }}{{if .IsPage}}{{ .Summary }}{{ else }}{{ with .Site.Params.description }}{{ . }}{{ end }}{{ end }}{{ end -}}"/>
+{{ end }}
