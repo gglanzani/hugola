@@ -4,6 +4,10 @@ body {
     font-size: 1.2em;
 }
 
+.highlight {
+    font-size: 0.8em;
+}
+
 a {
     text-decoration: none;
     color: rgb(61, 146, 201);
@@ -62,10 +66,6 @@ h1 {
     color: #fff;
     background-color: rgb(61, 146, 201);
     font-size: 50%;
-}
-
-.post-description {
-  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "segoe ui", Roboto, "helvetica neue", Arial, "noto sans", sans-serif, "apple color emoji", "segoe ui emoji", "segoe ui symbol", "noto color emoji";
 }
 
 /*
