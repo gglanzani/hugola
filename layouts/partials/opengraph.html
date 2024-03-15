@@ -19,10 +19,10 @@
 
   {{ $mediumFont := resources.Get "/Inter-Medium.ttf"}}
   {{ $img := $base.Filter (images.Text .Page.Title (dict
-    "color" "#ffffff"
+    "color" "#eceef0"
     "size" 52
     "linespacing" 2
-    "x" 40
+    "x" 65
     "y" 50
     "font" $boldFont
   ))}}
@@ -32,7 +32,7 @@
       "color" "#ffffff"
       "size" 32
       "linespacing" 2
-      "x" 40
+      "x" 65
       "y" 170
       "font" $mediumFont
     ))}} 
@@ -42,17 +42,28 @@
       "color" "#ffffff"
       "size" 32
       "linespacing" 2
-      "x" 40
+      "x" 65
       "y" 170
       "font" $mediumFont
     ))}} 
   {{ end }}
+  {{ $date := time.Format "January 2, 2006" .Date }}
+  {{ $comma := ", "}}
+  {{ $date_author := printf "%s" $date | printf "%s%s" $comma | printf "%s%s" .Site.Params.author  }}
+  {{ $img = $img.Filter (images.Text $date_author (dict
+    "color" "#ffffff"
+    "size" 26
+    "linespacing" 2
+    "x" 200
+    "y" 500
+    "font" $boldFont
+  ))}} 
   {{ $img = $img.Filter (images.Text .Permalink (dict
     "color" "#ffffff"
-    "size" 32
+    "size" 24 
     "linespacing" 2
-    "x" 32
-    "y" 570
+    "x" 200
+    "y" 540
     "font" $mediumFont
   ))}} 
   {{ $img = resources.Copy (path.Join .Page.RelPermalink "og.png") $img }}
