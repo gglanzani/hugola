@@ -16,7 +16,7 @@
 {{- if .IsPage -}}
   {{ $base := resources.Get "og_standard.png" }}
   {{ if fileExists "assets/og_base.png"}}
-    {{ $base := resources.Get "og_base.png" }}
+    {{ $base = resources.Get "og_base.png" }}
   {{ end }}
 
   {{ $boldFont := resources.Get "/Inter-SemiBold.ttf"}}
