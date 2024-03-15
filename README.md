@@ -1,2 +1,2 @@
-- Move `assets/og_standard.png` into `assets/og_base.png` or create an `assets/og_base.png` file in your hugo root.
+- Move `assets/og_standard.png` into `assets/og_base.png` or create an `assets/og_base.png` file in your hugo root. Otherwise, a standard will be used.
 - Create an `author` key in your `hugo.toml`
