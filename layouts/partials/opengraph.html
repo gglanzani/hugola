@@ -55,7 +55,7 @@
   {{ $comma := ", "}}
   {{ $author := .Site.Params.author }}
   {{ with .Page.Params.author }}
-    {{ $author := .}}
+    {{ $author = .}}
   {{ end }}
   {{ $date_author := printf "%s" $date | printf "%s%s" $comma | printf "%s%s" $author }}
   {{ $img = $img.Filter (images.Text $date_author (dict
