@@ -1,33 +1,15 @@
+{{ partial "head.html" . }}
 {{ partial "header.html" . }}
 
-{{ partial "sidebar.html" . }}
+<main class="container">
+    {{ range .Data.Pages}}
+    
+        <p>
+            {{ .Date.Format "2006/01/02" }} →
+            <a href="{{ .Permalink }}">{{ .Title }}</a>
+        </p>
+    
+    {{ end }}
+</main>
 
-            <div id="main">
-                <div class="content">
-                    <div>
-                    <!-- A wrapper for all the blog posts -->
-                        <div class="posts">
-                        
-                        {{ range .Data.Pages}}
-                        
-                            <p>
-                                {{ .Date.Format "2006/01/02" }} <i class="fa fa-long-arrow-right"></i> 
-                                <a href="{{ .Permalink }}">{{ .Title }}</a>
-                            </p>
-                        
-                        {{ end }}
-                        </div>
-                    </div>
-                </div>
-                <script>
-                    window.onload = function() {
-                    document.getElementById("blog-active").className = "menu-item-divided pure-menu-selected pure-menu-item";
-                    };
-                </script>
-        
-        {{ partial "footer.html" . }}
-        
-            </div>
-        </div> <!-- closes layout class in sidebar.html -->
-    </body>
-</html>
+{{ partial "footer.html" . }}

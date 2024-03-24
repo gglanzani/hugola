@@ -1,10 +1,15 @@
-                <div class="footer">
-                    <div class="pure-menu pure-menu-horizontal pure-menu-open">
-                        <ul>
-                             {{ range $key, $value := .Site.Params.Footer }}
-                            <li class="pure-menu-item"><a class="pure-menu-link" href="{{ $value }}">{{ $key }}</a></li>
-                            {{ end }}
-                        </ul>
-                    </div>
-                </div>
-
+<footer>
+  <div class="container">
+    <nav>
+        {{ range $key, $value := .Site.Params.Footer }}
+        <ul>
+            <li class="hide-before-sm">
+                <a href="{{ $value }}">{{ $key }}</a>
+            </li>
+        </ul>
+        {{ end }}
+    </nav>
+  </div>
+</footer>
+</body>
+</html>

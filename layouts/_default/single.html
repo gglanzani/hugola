@@ -1,12 +1,9 @@
+{{ partial "head.html" . }}
+
 {{ partial "header.html" . }}
+<main class="container">
+{{ partial "content.html" . }}
+</main>
 
-{{ partial "sidebar.html" . }}
-
-{{ partial "precontent.html" . }}
-
-{{ .Content }}
-                            
-{{ partial "postcontent.html" .}}       
-        
 {{ partial "footer.html" . }}
         
