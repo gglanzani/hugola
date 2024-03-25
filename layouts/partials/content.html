@@ -1,10 +1,15 @@
-  <h1 class="post-title">
-    <a href="{{ .Permalink }}">{{ .Title }}</a>
-  </h1>
+  <article>
+  <header>
+    <h1>
+      <a href="{{ .Permalink }}">{{ .Title }}</a>
+    </h1>
   <p>
-      Posted on <a href="#" class="post-author">{{ .Date.Format "02 Jan 2006" }}</a>
+      Posted on <em>{{ .Date.Format "02 Jan 2006" }}</em>
   </p>
+  <header>
 
   {{ partial "is_link.html" . }}
 
   {{ .Content }}
+
+  </article>
