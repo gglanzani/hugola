@@ -3,13 +3,13 @@
     <h1>
       <a href="{{ .Permalink }}">{{ .Title }}</a>
     </h1>
-  <p>
+  </header>
+
+    {{ partial "is_link.html" . }}
+
+    {{ .Content }}
+  <footer>
       Posted on <em>{{ .Date.Format "02 Jan 2006" }}</em>
-  </p>
-  <header>
-
-  {{ partial "is_link.html" . }}
-
-  {{ .Content }}
+  </footer>
 
   </article>
