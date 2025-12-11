@@ -32,13 +32,20 @@
     <meta name="theme-color" content="#ffffff">
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=source-code-pro:400|source-sans-pro:400,400i" rel="stylesheet" />
-    <style>
+    <style type="text/css" media="screen">
     body, h1, a {
       font-family: 'Source Sans Pro', sans-serif;
     }
   
     code {
       font-family: 'Source Code Pro', ui-monospace;
+    }
+
+    @media (prefers-color-scheme: dark) { 
+      {{ partial "css/syntax-dark.css" . | safeCSS }}
+    }
+    @media (prefers-color-scheme: light) { 
+      {{ partial "css/syntax-light.css" . | safeCSS }} 
     }
     </style>
   </head>
