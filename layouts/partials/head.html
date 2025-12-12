@@ -41,6 +41,12 @@
       font-family: 'Source Code Pro', ui-monospace;
     }
 
+    article {
+      max-width: 40em;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
     @media (prefers-color-scheme: dark) { 
       {{ partial "css/syntax-dark.css" . | safeCSS }}
     }
