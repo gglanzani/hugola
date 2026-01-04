@@ -1,0 +1,40 @@
+{{ $image := .Page.Resources.GetMatch (printf "%s" (.Destination | safeURL)) }}
+{{ if not $image }}
+  {{ $image = resources.Get (.Destination | strings.TrimPrefix "/") }}
+{{ end }}
+{{ $small := "" }}
+{{ $medium := "" }}
+{{ $big := "" }}
+{{ if $image }}
+  {{ $small = $image.Resize "600x" }}
+  {{ $medium = $image.Resize "900x" }}
+  {{ $big = $image.Resize "1600x" }}
+{{ end }}
+{{ $alt := .PlainText | safeHTML }}
+{{ $caption := "" }}
+{{ with .Title }}
+  {{ $caption = . | safeHTML }}
+{{ end }}
+
+<figure>
+{{ if $image }}
+  <a href="{{ $image.RelPermalink }}">
+    <img
+      sizes="100vw"
+      srcset="{{ $small.RelPermalink }} 600w, {{ $medium.RelPermalink }} 900w, {{ $big.RelPermalink }} 1600w"
+      src="{{ $image.RelPermalink }}"
+      width="{{ $image.Width }}"
+      height="{{ $image.Height }}"
+      alt="{{ if $alt }}{{ $alt }}{{ else if $caption }}{{ $caption | markdownify | plainify }}{{ else }}&nbsp;{{ end }}"
+      >
+  </a>
+{{ else }}
+  <img
+    src="{{ .Destination | safeURL }}"
+    alt="{{ if $alt }}{{ $alt }}{{ else if $caption }}{{ $caption | markdownify | plainify }}{{ else }}&nbsp;{{ end }}"
+    >
+{{ end }}
+  {{ with $caption }}
+    <figcaption>{{ . | markdownify }}</figcaption>
+  {{ end }}
+</figure>
