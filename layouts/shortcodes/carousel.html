@@ -1,0 +1,198 @@
+{{- $id := printf "carousel-%d" (index (seq 1 1000 | shuffle) 0) -}}
+{{- $images := split (.Inner | strings.TrimSpace) "\n" -}}
+{{- $validImages := slice -}}
+
+{{/* Parse image markdown and collect valid images */}}
+{{- range $images -}}
+  {{- $line := . | strings.TrimSpace -}}
+  {{- if and $line (strings.HasPrefix $line "![") -}}
+    {{- $validImages = $validImages | append $line -}}
+  {{- end -}}
+{{- end -}}
+
+{{- if gt (len $validImages) 0 -}}
+<style>
+.carousel {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 8px;
+}
+.carousel-inner {
+  display: flex;
+  transition: transform 0.3s ease-in-out;
+}
+.carousel-slide {
+  min-width: 100%;
+  box-sizing: border-box;
+}
+.carousel-slide figure {
+  margin: 0;
+}
+.carousel-slide img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.carousel-slide figcaption {
+  text-align: center;
+  padding: 0.5rem;
+  font-size: 75%;
+}
+.carousel-controls {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  transform: translateY(-50%);
+  pointer-events: none;
+  padding: 0 0.5rem;
+  box-sizing: border-box;
+}
+.carousel-btn {
+  pointer-events: auto;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 1.25rem;
+  line-height: 1;
+  transition: background 0.2s;
+}
+.carousel-btn:hover {
+  background: rgba(0, 0, 0, 0.75);
+}
+.carousel-dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 0;
+}
+.carousel-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--pico-muted-border-color, #ccc);
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.2s;
+}
+.carousel-dot.active {
+  background: var(--pico-primary, #0077cc);
+}
+</style>
+
+<div class="carousel" id="{{ $id }}">
+  <div class="carousel-inner">
+    {{- range $index, $imgLine := $validImages -}}
+      {{- $altMatch := findRE `!\[([^\]]*)\]` $imgLine -}}
+      {{- $srcMatch := findRE `\(([^)]+)\)` $imgLine -}}
+      {{- $alt := "" -}}
+      {{- $src := "" -}}
+      {{- $caption := "" -}}
+
+      {{- with $altMatch -}}
+        {{- $alt = strings.TrimPrefix "![" (index . 0) | strings.TrimSuffix "]" -}}
+      {{- end -}}
+
+      {{- with $srcMatch -}}
+        {{- $full := strings.TrimPrefix "(" (index . 0) | strings.TrimSuffix ")" -}}
+        {{- $parts := split $full " " -}}
+        {{- $src = index $parts 0 -}}
+        {{- if gt (len $parts) 1 -}}
+          {{- $caption = strings.Join (after 1 $parts) " " | strings.Trim "\"'" -}}
+        {{- end -}}
+      {{- end -}}
+
+      {{- $image := $.Page.Resources.GetMatch $src -}}
+      {{- if not $image -}}
+        {{- $image = resources.Get ($src | strings.TrimPrefix "/") -}}
+      {{- end -}}
+
+      <div class="carousel-slide">
+        <figure>
+          {{- if $image -}}
+            {{- $isWebp := strings.HasSuffix (strings.ToLower $image.RelPermalink) ".webp" -}}
+            {{- if $isWebp -}}
+              <img src="{{ $image.RelPermalink }}" alt="{{ $alt }}" loading="{{ if eq $index 0 }}eager{{ else }}lazy{{ end }}">
+            {{- else -}}
+              {{- $small := $image.Resize "600x" -}}
+              {{- $medium := $image.Resize "900x" -}}
+              {{- $big := $image.Resize "1600x" -}}
+              <img
+                sizes="100vw"
+                srcset="{{ $small.RelPermalink }} 600w, {{ $medium.RelPermalink }} 900w, {{ $big.RelPermalink }} 1600w"
+                src="{{ $image.RelPermalink }}"
+                alt="{{ $alt }}"
+                loading="{{ if eq $index 0 }}eager{{ else }}lazy{{ end }}">
+            {{- end -}}
+          {{- else -}}
+            <img src="{{ $src }}" alt="{{ $alt }}" loading="{{ if eq $index 0 }}eager{{ else }}lazy{{ end }}">
+          {{- end -}}
+          {{- with $caption -}}
+            <figcaption>{{ . | markdownify }}</figcaption>
+          {{- end -}}
+        </figure>
+      </div>
+    {{- end -}}
+  </div>
+
+  {{- if gt (len $validImages) 1 -}}
+  <div class="carousel-controls">
+    <button class="carousel-btn carousel-prev" aria-label="Previous slide">&#8249;</button>
+    <button class="carousel-btn carousel-next" aria-label="Next slide">&#8250;</button>
+  </div>
+
+  <div class="carousel-dots">
+    {{- range $index, $_ := $validImages -}}
+    <button class="carousel-dot{{ if eq $index 0 }} active{{ end }}" data-index="{{ $index }}" aria-label="Go to slide {{ add $index 1 }}"></button>
+    {{- end -}}
+  </div>
+  {{- end -}}
+</div>
+
+{{- if gt (len $validImages) 1 -}}
+<script>
+(function() {
+  const carousel = document.getElementById('{{ $id }}');
+  const inner = carousel.querySelector('.carousel-inner');
+  const slides = carousel.querySelectorAll('.carousel-slide');
+  const dots = carousel.querySelectorAll('.carousel-dot');
+  const prevBtn = carousel.querySelector('.carousel-prev');
+  const nextBtn = carousel.querySelector('.carousel-next');
+  let current = 0;
+  const total = slides.length;
+
+  function goTo(index) {
+    if (index < 0) index = total - 1;
+    if (index >= total) index = 0;
+    current = index;
+    inner.style.transform = `translateX(-${current * 100}%)`;
+    dots.forEach((dot, i) => dot.classList.toggle('active', i === current));
+  }
+
+  prevBtn.addEventListener('click', () => goTo(current - 1));
+  nextBtn.addEventListener('click', () => goTo(current + 1));
+  dots.forEach(dot => dot.addEventListener('click', () => goTo(parseInt(dot.dataset.index))));
+
+  // Keyboard navigation
+  carousel.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') goTo(current - 1);
+    if (e.key === 'ArrowRight') goTo(current + 1);
+  });
+
+  // Touch/swipe support
+  let touchStartX = 0;
+  carousel.addEventListener('touchstart', (e) => touchStartX = e.touches[0].clientX, { passive: true });
+  carousel.addEventListener('touchend', (e) => {
+    const diff = touchStartX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) goTo(current + (diff > 0 ? 1 : -1));
+  }, { passive: true });
+})();
+</script>
+{{- end -}}
+{{- end -}}
