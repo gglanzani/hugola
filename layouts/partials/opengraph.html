@@ -20,60 +20,44 @@
   {{ end }}
 
   {{ $boldFont := resources.Get "/Inter-SemiBold.ttf"}}
-
   {{ $mediumFont := resources.Get "/Inter-Medium.ttf"}}
+
+  {{/* Title - large and prominent, centered vertically in upper area */}}
   {{ $img := $base.Filter (images.Text .Page.Title (dict
-    "color" "#eceef0"
-    "size" 52
-    "linespacing" 2
-    "x" 65
-    "y" 50
+    "color" "#ffffff"
+    "size" 56
+    "linespacing" 8
+    "x" 60
+    "y" 180
     "font" $boldFont
   ))}}
-  {{ with .Page.Params.Snippet }}
-  {{ $str := . | plainify }}
-    {{ $img = $img.Filter (images.Text $str (dict
-      "color" "#ffffff"
-      "size" 32
-      "linespacing" 2
-      "x" 65
-      "y" 170
-      "font" $mediumFont
-    ))}} 
-  {{ else }}
-  {{ $str := .Content | truncate 400 | plainify }}
-    {{ $img = $img.Filter (images.Text $str (dict
-      "color" "#ffffff"
-      "size" 32
-      "linespacing" 2
-      "x" 65
-      "y" 170
-      "font" $mediumFont
-    ))}} 
-  {{ end }}
+
+  {{/* Author and date - below the separator line */}}
   {{ $date := time.Format "January 2, 2006" .Date }}
-  {{ $comma := ", "}}
   {{ $author := .Site.Params.author }}
   {{ with .Page.Params.author }}
     {{ $author = .}}
   {{ end }}
-  {{ $date_author := printf "%s" $date | printf "%s%s" $comma | printf "%s%s" $author }}
-  {{ $img = $img.Filter (images.Text $date_author (dict
-    "color" "#ffffff"
-    "size" 26
+  {{ $byline := printf "%s  •  %s" $author $date }}
+  {{ $img = $img.Filter (images.Text $byline (dict
+    "color" "#b0b0b0"
+    "size" 24
     "linespacing" 2
-    "x" 200
-    "y" 500
-    "font" $boldFont
-  ))}} 
-  {{ $img = $img.Filter (images.Text .Permalink (dict
-    "color" "#ffffff"
-    "size" 24 
-    "linespacing" 2
-    "x" 200
-    "y" 540
+    "x" 60
+    "y" 520
     "font" $mediumFont
-  ))}} 
+  ))}}
+
+  {{/* URL/permalink at the bottom */}}
+  {{ $img = $img.Filter (images.Text .Permalink (dict
+    "color" "#808080"
+    "size" 20
+    "linespacing" 2
+    "x" 60
+    "y" 565
+    "font" $mediumFont
+  ))}}
+
   {{ $img = resources.Copy (path.Join .Page.RelPermalink "og.png") $img }}
 
   <meta property="og:image" content="{{$img.Permalink}}" />
