@@ -19,8 +19,8 @@
     {{ $base = resources.Get "og_base.png" }}
   {{ end }}
 
-  {{ $boldFont := resources.Get "/Inter-SemiBold.ttf"}}
-  {{ $mediumFont := resources.Get "/Inter-Medium.ttf"}}
+  {{ $boldFont := resources.Get "/CooperHewitt-Bold.otf"}}
+  {{ $mediumFont := resources.Get "/CooperHewitt-Medium.otf"}}
 
   {{/* Title - large and prominent, centered vertically in upper area */}}
   {{ $img := $base.Filter (images.Text .Page.Title (dict
