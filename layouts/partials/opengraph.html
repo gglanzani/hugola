@@ -24,7 +24,7 @@
 
   {{/* Title - large and prominent, centered vertically in upper area */}}
   {{ $img := $base.Filter (images.Text .Page.Title (dict
-    "color" "#000000d0"
+    "color" "#1a1a1a"
     "size" 82
     "linespacing" 8
     "x" 60
@@ -40,7 +40,7 @@
   {{ end }}
   {{ $byline := printf "%s  •  %s" $author $date }}
   {{ $img = $img.Filter (images.Text $byline (dict
-    "color" "#044421b1"
+    "color" "#8b7355"
     "size" 32
     "linespacing" 2
     "x" 60
@@ -50,7 +50,7 @@
 
   {{/* URL/permalink at the bottom */}}
   {{ $img = $img.Filter (images.Text .Permalink (dict
-    "color" "#044421b1"
+    "color" "#8b7355"
     "size" 28
     "linespacing" 2
     "x" 60
