@@ -1,15 +1,42 @@
 {{ partial "head.html" . }}
 {{ partial "header.html" . }}
 
-<main class="container">
-    {{ range .Data.Pages}}
-    
-        <p>
-            {{ .Date.Format "2006/01/02" }} →
-            <a href="{{ .Permalink }}">{{ .Title }}</a>
-        </p>
-    
+<div class="page-wrap">
+  <div class="list-head">
+    <p class="eyebrow">Writing — {{ len .Pages }} posts</p>
+    <h1>{{ .Site.Params.listHeading | default "Thirteen years of thinking out loud." }}</h1>
+    <p class="lede">{{ .Site.Params.listLede | default "Long form, mostly. On data, teams, and the craft of building software." }}</p>
+  </div>
+
+  <div class="list-filters">
+    <a href="/posts/" class="chip{{ if not .Data.Term }} chip-active{{ end }}">
+      all <span class="count">{{ len .Pages }}</span>
+    </a>
+    {{ range first 10 (.Site.Taxonomies.tags.ByCount) }}
+      <a href="/tags/{{ .Page.Title | urlize }}/" class="chip{{ if eq $.Data.Term (.Page.Title | urlize) }} chip-active{{ end }}">
+        {{ .Page.Title }} <span class="count">{{ .Count }}</span>
+      </a>
     {{ end }}
-</main>
+  </div>
+
+  <div class="post-list">
+    {{ $pages := .Pages.ByDate.Reverse }}
+    {{ range $post := $pages }}
+    <a href="{{ $post.RelPermalink }}" class="row">
+      <div class="row-body">
+        <h3>{{ $post.Title }}</h3>
+        <p>{{ $post.Summary | plainify | truncate 120 }}</p>
+      </div>
+      <div class="row-tags">
+        {{ if $post.Params.tags }}{{ range first 6 $post.Params.tags }}<span class="chip">{{ . }}</span>{{ end }}{{ end }}
+      </div>
+      <div class="ts">
+        {{ $post.Date.Format "Jan 2006" }}<br>
+        {{ $post.ReadingTime }} min
+      </div>
+    </a>
+    {{ end }}
+  </div>
+</div>
 
 {{ partial "footer.html" . }}

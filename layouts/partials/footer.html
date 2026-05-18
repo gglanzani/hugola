@@ -1,22 +1,33 @@
-<footer>
-  <div class="container">
-    <nav>
-        {{ range $key, $value := .Site.Params.Footer }}
-        <ul>
-            <li class="hide-before-sm">
-                <a href="{{ $value }}">{{ $key }}</a>
-            </li>
-        </ul>
-        {{ end }}
-    </nav>
+<footer class="site-footer">
+  <div>
+    <h4>Site</h4>
+    {{ range .Site.Menus.main }}
+      <div><a href="{{ .URL }}">{{ .Name }}</a></div>
+    {{ end }}
+  </div>
+  <div>
+    <h4>Elsewhere</h4>
+    {{ with .Site.Params.footer.Contact }}<div><a href="{{ . }}">email</a></div>{{ end }}
+    {{ with .Site.Params.footer.GitHub }}<div><a href="{{ . }}">github</a></div>{{ end }}
+    {{ with .Site.Params.footer.LinkedIn }}<div><a href="{{ . }}">linkedin</a></div>{{ end }}
+    {{ with .Site.Params.footer.Mastodon }}<div><a href="{{ . }}">mastodon</a></div>{{ end }}
   </div>
 </footer>
-<script
-  src="https://unpkg.com/littlefoot/dist/littlefoot.js"
-  type="application/javascript"
-></script>
+<script src="https://unpkg.com/littlefoot/dist/littlefoot.js" type="application/javascript"></script>
 <script type="application/javascript">
-  littlefoot.littlefoot() // Pass any littlefoot settings here.
+  littlefoot.littlefoot()
+</script>
+<script>
+  document.querySelectorAll('[data-copy]').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var code = btn.closest('.code').querySelector('td:last-child pre code') || btn.closest('.code').querySelector('pre code');
+      navigator.clipboard.writeText(code.textContent).then(function() {
+        var orig = btn.textContent;
+        btn.textContent = 'Copied';
+        setTimeout(function() { btn.textContent = orig; }, 1200);
+      });
+    });
+  });
 </script>
 </body>
 </html>

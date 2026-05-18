@@ -1,14 +1,42 @@
 {{ partial "head.html" . }}
-
 {{ partial "header.html" . }}
 
-<main class="container">
-    <h1 class="content-subhead">Recent Posts <a href="/posts">(all)</a></h1>
-    {{ range .Paginator.Pages}}
-        {{ partial "content.html" . }}
-    {{ end }}
-    {{ partial "pagination.html" . }}
+<section class="hero" style="grid-template-columns:1fr">
+  <div>
+    <h1>{{ .Site.Params.bio | default "Notes on data, teams, and the slow craft of building software." }}</h1>
+    <p class="lede">{{ .Site.Params.lede | default "I'm Giovanni — managing director at Xebia Data, based in Amsterdam. I've been writing here since 2013. Long form, mostly. No newsletter, no popups, no AI summaries." }}</p>
+    <div style="display:flex;gap:12px;margin-top:32px;flex-wrap:wrap">
+      <a href="/posts/" class="btn btn-primary">Browse writing →</a>
+    </div>
+  </div>
+</section>
 
-</main>
+{{ $posts := where .Site.RegularPages "Section" "posts" }}
+{{ $recent := first 4 $posts }}
+<section class="section-recent">
+  <div class="section-recent-head">
+    <h2>Recent</h2>
+    <a href="/posts/" style="color:var(--accent);font-size:14px">See all →</a>
+  </div>
+  <div class="post-grid">
+    {{ range $i, $post := $recent }}
+    <a href="{{ $post.RelPermalink }}" class="card">
+      <div class="card-meta">
+        <span class="meta">{{ printf "%02d" (add $i 1) }} · {{ $post.Date.Format "Jan 2, 2006" }}</span>
+        <span class="meta">{{ $post.ReadingTime }} min</span>
+      </div>
+      <h3>{{ $post.Title }}</h3>
+      <p>{{ $post.Summary | plainify | truncate 150 }}</p>
+      {{ if $post.Params.tags }}
+      <div>
+        {{ range first 3 $post.Params.tags }}
+          <span class="chip">{{ . }}</span>
+        {{ end }}
+      </div>
+      {{ end }}
+    </a>
+    {{ end }}
+  </div>
+</section>
 
 {{ partial "footer.html" . }}

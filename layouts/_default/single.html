@@ -1,9 +1,27 @@
 {{ partial "head.html" . }}
-
 {{ partial "header.html" . }}
-<main class="container">
-{{ partial "content.html" . }}
-</main>
+
+<div class="page-wrap">
+  <div class="post-hero">
+    <p class="crumb">← <a href="/posts/">Writing</a> / {{ .Date.Format "Jan 2, 2006" }} · {{ .ReadingTime }} min · {{ .WordCount }} words</p>
+    <h1>{{ .Title }}</h1>
+    {{ with .Params.subtitle }}
+    <p class="subtitle">{{ . }}</p>
+    {{ end }}
+    {{ if .Params.tags }}
+    <div class="tags">
+      {{ range .Params.tags }}
+        <a href="/tags/{{ . | urlize }}/" class="chip">{{ . }}</a>
+      {{ end }}
+    </div>
+    {{ end }}
+  </div>
+
+  <div style="padding:56px var(--gutter) 80px">
+    <article class="post-body">
+      {{ .Content }}
+    </article>
+  </div>
+</div>
 
 {{ partial "footer.html" . }}
-        

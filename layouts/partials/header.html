@@ -1,18 +1,10 @@
-<header>
-  <div class="container">
-    <nav>
-        <ul>
-        <li class="hide-before-sm">
-            <a href={{ .Site.Params.Domain }}>{{ .Site.Params.Name }}</a> 
-        </li>
-        </ul>
-        <ul>
-         {{ range $key, $value := .Site.Params.Sidebar }}
-        <li class="hide-before-sm">
-            <a class="contrast" href="{{ $value }}">{{ $key }}</a>
-        </li>
-        {{ end }}
-        </ul>
-    </nav>
-  </div>
+<header class="site-header">
+  <a href="/" class="site-logo">{{ .Site.Title }}</a>
+  <nav class="site-nav">
+    {{ range .Site.Menus.main }}
+      {{- $isActive := and (gt (len .URL) 1) (strings.HasPrefix $.Page.RelPermalink .URL) -}}
+      <a href="{{ .URL }}"{{ if $isActive }} class="is-active" aria-current="page"{{ end }}>{{ .Name }}</a>
+    {{ end }}
+    <a href="{{ $.Site.Params.Rss | default "/index.xml" }}" class="btn-pill">subscribe</a>
+  </nav>
 </header>

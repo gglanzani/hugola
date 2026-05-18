@@ -1,0 +1,9 @@
+{{ $opts := dict "lineNos" true "lineNumbersInTable" true "noClasses" false }}
+{{ $highlighted := transform.Highlight .Inner .Type $opts }}
+<div class="code">
+  <div class="code__hd">
+    <span>{{ with .Attributes.filename }}{{ . }}{{ else }}{{ .Type | default "code" }}{{ end }}</span>
+    <button type="button" data-copy>Copy</button>
+  </div>
+  {{ $highlighted }}
+</div>
