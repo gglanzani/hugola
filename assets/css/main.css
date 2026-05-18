@@ -38,6 +38,7 @@
 
   /* ── Spacing & layout ─────────────────────────────────── */
   --gutter: 56px;                        /* page side-padding (desktop) */
+  --max-content: 1168px;                 /* max inner content width (1280px - 2×gutter) */
   --measure: 720px;                      /* prose column width */
   --radius:  10px;
   --radius-pill: 999px;
@@ -152,7 +153,7 @@ pre code { background: none; border: 0; padding: 0; font-size: inherit; }
 .site-header {
   position: sticky; top: 0; z-index: 10;
   display: flex; align-items: center; justify-content: space-between;
-  padding: 26px var(--gutter);
+  padding: 26px max(var(--gutter), calc((100vw - var(--max-content)) / 2));
   border-bottom: 1px solid var(--rule);
   background: color-mix(in srgb, var(--bg) 85%, transparent);
   backdrop-filter: blur(8px);
@@ -172,7 +173,7 @@ pre code { background: none; border: 0; padding: 0; font-size: inherit; }
 
 /* ── Footer ────────────────────────────────────────────── */
 .site-footer {
-  padding: 48px var(--gutter);
+  padding: 48px max(var(--gutter), calc((100vw - var(--max-content)) / 2));
   border-top: 1px solid var(--rule);
   display: grid; grid-template-columns: 1fr 1fr; gap: 32px;
   font-size: 13px; color: var(--ink-2);
@@ -217,7 +218,7 @@ pre code { background: none; border: 0; padding: 0; font-size: inherit; }
 
 /* ── Homepage ──────────────────────────────────────────── */
 .hero {
-  padding: 96px var(--gutter) 80px;
+  padding: 96px max(var(--gutter), calc((100vw - var(--max-content)) / 2)) 80px;
   display: grid; grid-template-columns: 1fr auto; gap: 64px; align-items: end;
 }
 .hero h1 mark { background: none; color: var(--accent); }
@@ -225,7 +226,7 @@ pre code { background: none; border: 0; padding: 0; font-size: inherit; }
 
 .section-recent {
   border-top: 1px solid var(--rule);
-  padding: 56px var(--gutter) 80px;
+  padding: 56px max(var(--gutter), calc((100vw - var(--max-content)) / 2)) 80px;
 }
 .section-recent-head {
   display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 36px;
@@ -247,13 +248,13 @@ pre code { background: none; border: 0; padding: 0; font-size: inherit; }
 
 /* ── List view (full archive) ──────────────────────────── */
 .eyebrow { font: 11px/1 var(--mono); color: var(--ink-2); letter-spacing: 0.08em; text-transform: uppercase; margin: 0 0 16px; }
-.list-head { padding: 72px var(--gutter) 32px; }
+.list-head { padding: 72px max(var(--gutter), calc((100vw - var(--max-content)) / 2)) 32px; }
 .list-head h1 { margin: 0 0 24px; }
-.list-filters { padding: 0 var(--gutter) 32px; display: flex; gap: 8px; flex-wrap: wrap; }
+.list-filters { padding: 0 max(var(--gutter), calc((100vw - var(--max-content)) / 2)) 32px; display: flex; gap: 8px; flex-wrap: wrap; }
 
 .post-list {
   border-top: 1px solid var(--rule); margin-top: 16px;
-  padding: 16px var(--gutter) 80px;
+  padding: 16px max(var(--gutter), calc((100vw - var(--max-content)) / 2)) 80px;
 }
 .post-list .row {
   display: grid; grid-template-columns: 1fr minmax(0, 260px) 72px; gap: 20px;
@@ -274,7 +275,7 @@ pre code { background: none; border: 0; padding: 0; font-size: inherit; }
 }
 
 /* ── Single post ───────────────────────────────────────── */
-.post-hero { padding: 72px var(--gutter) 48px; border-bottom: 1px solid var(--rule); }
+.post-hero { padding: 72px max(var(--gutter), calc((100vw - var(--max-content)) / 2)) 48px; border-bottom: 1px solid var(--rule); }
 .post-hero .crumb { font: 12px/1 var(--mono); color: var(--ink-2); margin: 0 0 24px; letter-spacing: 0.04em; }
 .post-hero h1 { max-width: 880px; margin-bottom: 18px; }
 .post-hero .subtitle { font-size: 22px; line-height: 1.45; color: var(--ink-2); margin: 0; max-width: var(--measure); }
@@ -282,7 +283,7 @@ pre code { background: none; border: 0; padding: 0; font-size: inherit; }
 
 .post-layout {
   display: grid; grid-template-columns: 160px minmax(0, var(--measure)) 1fr;
-  gap: 40px; padding: 56px var(--gutter) 80px;
+  gap: 40px; padding: 56px max(var(--gutter), calc((100vw - var(--max-content)) / 2)) 80px;
 }
 .toc { position: sticky; top: 96px; align-self: start; }
 .toc h4 { font: 600 10px/1 var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-2); margin: 0 0 12px; }
@@ -296,6 +297,40 @@ pre code { background: none; border: 0; padding: 0; font-size: inherit; }
 .post-side .card { padding: 16px; background: var(--paper); border-radius: var(--radius); border: 1px solid var(--rule); }
 .post-side .card .name { color: var(--ink); font-weight: 600; margin-bottom: 6px; }
 .post-side .card .stack { margin-top: 14px; display: flex; flex-direction: column; gap: 4px; font: 11px/1.4 var(--mono); }
+
+/* ── CV entry labels (role / company / date badges) ────── */
+.post-body button {
+  display: inline-flex; align-items: center;
+  padding: 3px 11px; border-radius: var(--radius-pill);
+  border: 1px solid transparent;
+  font: 600 12px/1.6 var(--sans);
+  cursor: default; user-select: none; pointer-events: none;
+  vertical-align: middle; margin: 0 4px 0 0;
+  background: var(--ink); color: var(--bg);
+}
+.post-body button.secondary {
+  background: var(--paper); color: var(--ink); border-color: var(--rule);
+}
+.post-body button.contrast {
+  background: transparent; color: var(--ink-2); border-color: var(--rule);
+  font-family: var(--mono); font-weight: 400; font-size: 11px; letter-spacing: 0.03em;
+}
+
+/* ── Inline table of contents (top of page) ─────────────── */
+.toc-top {
+  margin-bottom: 48px; padding: 20px 24px;
+  background: var(--paper); border: 1px solid var(--rule); border-radius: var(--radius);
+}
+.toc-top__label {
+  font: 600 10px/1 var(--mono); letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--ink-2); margin: 0 0 12px;
+}
+.toc-top nav, .toc-top ul, .toc-top ol { margin: 0; padding: 0; }
+.toc-top ul, .toc-top ol { list-style: none; padding-left: 16px; }
+.toc-top > ul, .toc-top > ol { padding-left: 0; }
+.toc-top li { padding: 3px 0; font-size: 14px; }
+.toc-top li a { color: var(--ink); }
+.toc-top li a:hover { color: var(--accent); }
 
 /* ── Responsive (mobile-first stack) ───────────────────── */
 @media (max-width: 900px) {

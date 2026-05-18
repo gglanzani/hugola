@@ -5,6 +5,6 @@
       {{- $isActive := and (gt (len .URL) 1) (strings.HasPrefix $.Page.RelPermalink .URL) -}}
       <a href="{{ .URL }}"{{ if $isActive }} class="is-active" aria-current="page"{{ end }}>{{ .Name }}</a>
     {{ end }}
-    <a href="{{ $.Site.Params.Rss | default "/index.xml" }}" class="btn-pill">subscribe</a>
+    <a href="feed:{{ $.Site.Params.Rss | default "/feed.xml" }}" class="btn-pill">subscribe</a>
   </nav>
 </header>
