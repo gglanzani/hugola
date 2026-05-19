@@ -1,0 +1,125 @@
+{{ partial "head.html" . }}
+{{ partial "header.html" . }}
+
+<div class="page-wrap">
+  <div class="list-head">
+    <p class="eyebrow">Projects — {{ len .Pages }} open source</p>
+    <h1>{{ .Title | default "Open source" }}</h1>
+    {{ with .Params.lede }}<p class="lede">{{ . }}</p>{{ end }}
+    {{ with .Content }}<div class="lede">{{ . }}</div>{{ end }}
+  </div>
+
+  <div class="project-grid">
+    {{ range .Pages.ByWeight }}
+    {{ $repo := .Params.repo }}
+    {{ $host := "" }}
+    {{ $gh := "" }}
+    {{ if $repo }}
+      {{ $host = replaceRE "^https?://(www\\.)?" "" $repo }}
+      {{ $host = replaceRE "/$" "" $host }}
+      {{ if in $repo "github.com/" }}
+        {{ $gh = replaceRE "^https?://(www\\.)?github\\.com/" "" $repo }}
+        {{ $gh = replaceRE "/$" "" $gh }}
+        {{ $gh = replaceRE "\\.git$" "" $gh }}
+      {{ end }}
+    {{ end }}
+    <a href="{{ $repo }}" class="project-card"{{ with $gh }} data-gh="{{ . }}"{{ end }}{{ if $repo }} rel="noopener" target="_blank"{{ end }}>
+      <div class="project-card-top">
+        {{ with .Params.icon }}
+        <div class="project-icon">
+          {{ if or (strings.HasPrefix . "/") (strings.HasPrefix . "http") }}
+            <img src="{{ . | relURL }}" alt="" loading="lazy">
+          {{ else }}
+            <span>{{ . }}</span>
+          {{ end }}
+        </div>
+        {{ else }}
+        <div class="project-icon project-icon--placeholder">
+          <span>{{ substr .Title 0 1 }}</span>
+        </div>
+        {{ end }}
+        {{ if .Params.tags }}
+        <div class="project-tags">
+          {{ range first 3 .Params.tags }}<span class="chip">{{ . }}</span>{{ end }}
+        </div>
+        {{ end }}
+      </div>
+      <h3>{{ .Title }}</h3>
+      <p>{{ .Params.description | default (.Summary | plainify | truncate 140) }}</p>
+      <div class="project-foot">
+        {{ with $host }}<span class="meta project-repo">{{ . }} →</span>{{ end }}
+        {{ if $gh }}
+        <div class="project-stats" hidden>
+          <span class="project-stat" title="Stars">
+            <svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true" fill="currentColor"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"/></svg>
+            <span data-stars>—</span>
+          </span>
+          <span class="project-stat" title="Forks">
+            <svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true" fill="currentColor"><path d="M5 5.372v.878c0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75v-.878a2.25 2.25 0 1 1 1.5 0v.878a2.25 2.25 0 0 1-2.25 2.25h-1.5v2.128a2.251 2.251 0 1 1-1.5 0V8.5h-1.5A2.25 2.25 0 0 1 4 6.25v-.878a2.25 2.25 0 1 1 1.5 0ZM5 3.25a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Zm6.75.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm-3 8.75a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Z"/></svg>
+            <span data-forks>—</span>
+          </span>
+        </div>
+        {{ end }}
+      </div>
+    </a>
+    {{ end }}
+  </div>
+</div>
+
+<script>
+(function () {
+  var TTL = 60 * 60 * 1000;
+  var cards = document.querySelectorAll('.project-card[data-gh]');
+  if (!cards.length) return;
+
+  function format(n) {
+    if (n >= 1000) return (n / 1000).toFixed(1).replace(/\.0$/, '') + 'k';
+    return String(n);
+  }
+
+  function read(key) {
+    try {
+      var raw = localStorage.getItem(key);
+      if (!raw) return null;
+      var entry = JSON.parse(raw);
+      if (!entry || Date.now() - entry.t > TTL) return null;
+      return entry.v;
+    } catch (e) { return null; }
+  }
+
+  function write(key, value) {
+    try { localStorage.setItem(key, JSON.stringify({ t: Date.now(), v: value })); } catch (e) {}
+  }
+
+  function apply(card, stats) {
+    var stars = card.querySelector('[data-stars]');
+    var forks = card.querySelector('[data-forks]');
+    if (stars) stars.textContent = format(stats.stars);
+    if (forks) forks.textContent = format(stats.forks);
+    var wrap = card.querySelector('.project-stats');
+    if (wrap) wrap.removeAttribute('hidden');
+  }
+
+  cards.forEach(function (card) {
+    var repo = card.getAttribute('data-gh');
+    if (!repo || repo.split('/').length !== 2) return;
+    var key = 'hugola:gh:' + repo;
+    var cached = read(key);
+    if (cached) { apply(card, cached); return; }
+
+    fetch('https://api.github.com/repos/' + repo, {
+      headers: { 'Accept': 'application/vnd.github+json' }
+    })
+      .then(function (res) { return res.ok ? res.json() : null; })
+      .then(function (data) {
+        if (!data) return;
+        var stats = { stars: data.stargazers_count || 0, forks: data.forks_count || 0 };
+        write(key, stats);
+        apply(card, stats);
+      })
+      .catch(function () { /* silent */ });
+  });
+})();
+</script>
+
+{{ partial "footer.html" . }}

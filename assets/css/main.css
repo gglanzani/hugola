@@ -268,6 +268,62 @@ pre code { background: none; border: 0; padding: 0; font-size: inherit; }
 .post-list .row .row-tags { display: flex; gap: 5px; flex-wrap: wrap; align-content: start; }
 .post-list .row .ts       { font: 11px/1.6 var(--mono); color: var(--ink-2); text-align: right; }
 
+/* ── Project grid (open source showcase) ───────────────── */
+.project-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+  padding: 16px max(var(--gutter), calc((100vw - var(--max-content)) / 2)) 80px;
+}
+.project-card {
+  display: flex; flex-direction: column; gap: 12px;
+  padding: 24px; border: 1px solid var(--rule); border-radius: var(--radius);
+  background: var(--bg); color: var(--ink); min-height: 200px;
+  transition: border-color 120ms ease, background 120ms ease, transform 120ms ease;
+}
+.project-card:hover {
+  text-decoration: none; border-color: var(--ink);
+  background: color-mix(in srgb, var(--paper) 60%, transparent);
+  transform: translateY(-1px);
+}
+.project-card-top {
+  display: flex; justify-content: space-between; align-items: center; gap: 12px;
+}
+.project-card h3 { font-size: 18px; margin: 0; letter-spacing: -0.015em; }
+.project-card p  { font-size: 14px; color: var(--ink-2); margin: 0; flex: 1; }
+.project-card .project-repo {
+  display: inline-flex; align-items: center; gap: 6px;
+  color: var(--accent); text-transform: none; letter-spacing: 0;
+  font-size: 12px; word-break: break-all;
+}
+.project-card:hover .project-repo { color: var(--accent-hi); }
+.project-tags { display: flex; gap: 5px; flex-wrap: wrap; justify-content: flex-end; }
+
+.project-icon {
+  width: 44px; height: 44px; flex: 0 0 44px;
+  border-radius: 8px; overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--paper); border: 1px solid var(--rule);
+  font-size: 22px; line-height: 1;
+}
+.project-icon img { width: 100%; height: 100%; object-fit: contain; padding: 6px; }
+.project-icon--placeholder {
+  background: var(--ink); color: var(--bg); border-color: var(--ink);
+  font-family: var(--display); font-weight: 600; font-size: 18px;
+  text-transform: uppercase;
+}
+
+.project-foot {
+  display: flex; justify-content: space-between; align-items: center; gap: 12px;
+  margin-top: auto;
+}
+.project-stats { display: inline-flex; gap: 12px; }
+.project-stat {
+  display: inline-flex; align-items: center; gap: 4px;
+  font: 500 12px/1 var(--mono); color: var(--ink-2);
+}
+.project-stat svg { opacity: 0.7; }
+.project-card:hover .project-stat { color: var(--ink); }
+
 /* ── Centered page wrapper ─────────────────────────────── */
 .page-wrap {
   max-width: calc(var(--measure) + 2 * var(--gutter));
@@ -343,6 +399,7 @@ pre code { background: none; border: 0; padding: 0; font-size: inherit; }
   .post-grid .card { padding: 24px 0 !important; border-right: 0 !important; }
   .post-list .row { grid-template-columns: 1fr; gap: 8px; padding: 22px 0; }
   .post-list .row .ts, .post-list .row .tags { text-align: left; }
+  .project-grid { grid-template-columns: 1fr; gap: 12px; }
   .post-layout { grid-template-columns: 1fr; padding-top: 32px; }
   .toc, .post-side { position: static; }
   .site-footer { grid-template-columns: 1fr; }
