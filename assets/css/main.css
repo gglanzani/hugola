@@ -373,6 +373,9 @@ pre code { background: none; border: 0; padding: 0; font-size: inherit; }
   background: transparent; color: var(--ink-2); border-color: var(--rule);
   font-family: var(--mono); font-weight: 400; font-size: 11px; letter-spacing: 0.03em;
 }
+.code__hd button, .post-body .littlefoot__button {
+  pointer-events: auto; cursor: pointer; user-select: auto;
+}
 
 /* ── Inline table of contents (top of page) ─────────────── */
 .toc-top {
@@ -389,6 +392,15 @@ pre code { background: none; border: 0; padding: 0; font-size: inherit; }
 .toc-top li { padding: 3px 0; font-size: 14px; }
 .toc-top li a { color: var(--ink); }
 .toc-top li a:hover { color: var(--accent); }
+
+/* ── Footnotes (keep visible alongside littlefoot popups) ── */
+@media not print {
+  .footnotes.littlefoot--print { display: block !important; }
+  .footnotes .littlefoot--print { display: revert !important; }
+}
+.footnotes hr { border: 0; border-top: 1px solid var(--rule); margin: 2em 0 1em; }
+.footnotes ol { font-size: 13px; color: var(--ink-2); padding-left: 1.4em; }
+.footnotes li { margin-bottom: 0.4em; }
 
 /* ── Responsive (mobile-first stack) ───────────────────── */
 @media (max-width: 900px) {

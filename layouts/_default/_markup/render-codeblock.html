@@ -3,7 +3,7 @@
 <div class="code">
   <div class="code__hd">
     <span>{{ with .Attributes.filename }}{{ . }}{{ else }}{{ .Type | default "code" }}{{ end }}</span>
-    <button type="button" data-copy>Copy</button>
+    <button type="button" onclick="(function(btn){var c=btn.closest('.code'),el=c.querySelector('td:last-child pre code')||c.querySelector('pre code');if(!el)return;var t=el.textContent,o=btn.textContent;function done(){btn.textContent='Copied';setTimeout(function(){btn.textContent=o;},1200);}if(navigator.clipboard){navigator.clipboard.writeText(t).then(done).catch(function(){var a=document.createElement('textarea');a.value=t;a.style.cssText='position:fixed;opacity:0';document.body.appendChild(a);a.focus();a.select();document.execCommand('copy');document.body.removeChild(a);done();});}else{var a=document.createElement('textarea');a.value=t;a.style.cssText='position:fixed;opacity:0';document.body.appendChild(a);a.focus();a.select();document.execCommand('copy');document.body.removeChild(a);done();}})(this)">Copy</button>
   </div>
   {{ $highlighted }}
 </div>

@@ -17,17 +17,5 @@
 <script type="application/javascript">
   littlefoot.littlefoot()
 </script>
-<script>
-  document.querySelectorAll('[data-copy]').forEach(function(btn) {
-    btn.addEventListener('click', function() {
-      var code = btn.closest('.code').querySelector('td:last-child pre code') || btn.closest('.code').querySelector('pre code');
-      navigator.clipboard.writeText(code.textContent).then(function() {
-        var orig = btn.textContent;
-        btn.textContent = 'Copied';
-        setTimeout(function() { btn.textContent = orig; }, 1200);
-      });
-    });
-  });
-</script>
 </body>
 </html>
