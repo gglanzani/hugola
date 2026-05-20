@@ -415,5 +415,6 @@ pre code { background: none; border: 0; padding: 0; font-size: inherit; }
   .post-layout { grid-template-columns: 1fr; padding-top: 32px; }
   .toc, .post-side { position: static; }
   .site-footer { grid-template-columns: 1fr; }
-  .site-header { padding: 16px var(--gutter); }
+  .site-header { padding: 14px var(--gutter); flex-wrap: wrap; gap: 10px; }
+  .site-nav { gap: 16px; flex-wrap: wrap; }
 }
