@@ -162,7 +162,7 @@ pre code { background: none; border: 0; padding: 0; font-size: inherit; }
 .site-logo::before {
   content: ""; width: 18px; height: 18px; border-radius: 4px; background: var(--accent);
 }
-.site-nav { display: flex; gap: 28px; font-size: 14px; }
+.site-nav { display: flex; align-items: center; gap: 28px; font-size: 14px; }
 .site-nav a { color: var(--ink-2); font-weight: 500; }
 .site-nav a.is-active, .site-nav a:hover { color: var(--ink); text-decoration: none; }
 .site-nav .btn-pill {
