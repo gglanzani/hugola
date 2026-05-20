@@ -1,8 +1,7 @@
 {{ partial "head.html" . }}
 {{ partial "header.html" . }}
 
-<div class="page-wrap">
-  <div class="list-head">
+<div class="list-head">
     <p class="eyebrow">Writing — {{ len .Pages }} posts</p>
     <h1>{{ .Site.Params.listHeading | default "Thirteen years of thinking out loud." }}</h1>
     <p class="lede">{{ .Site.Params.listLede | default "Long form, mostly. On data, teams, and the craft of building software." }}</p>
@@ -37,6 +36,5 @@
     </a>
     {{ end }}
   </div>
-</div>
 
 {{ partial "footer.html" . }}
