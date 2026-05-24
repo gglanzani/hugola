@@ -27,6 +27,9 @@
     </nav>
     {{ end }}
     <article class="post-body">
+      {{ if and .Params.link .Params.link_title }}
+      <p class="link-ref">→ <a href="{{ .Params.link }}" target="_blank" rel="noopener">{{ .Params.link_title }}</a></p>
+      {{ end }}
       {{ .Content }}
     </article>
   </div>

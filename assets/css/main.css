@@ -336,6 +336,7 @@ pre code { background: none; border: 0; padding: 0; font-size: inherit; }
 .post-hero h1 { max-width: 880px; margin-bottom: 18px; }
 .post-hero .subtitle { font-size: 22px; line-height: 1.45; color: var(--ink-2); margin: 0; max-width: var(--measure); }
 .post-hero .tags { margin-top: 22px; display: flex; gap: 6px; }
+.link-ref { margin: 0 0 24px; font-size: 18px; color: var(--ink); }
 
 .post-layout {
   display: grid; grid-template-columns: 160px minmax(0, var(--measure)) 1fr;
