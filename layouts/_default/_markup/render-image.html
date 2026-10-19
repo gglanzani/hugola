@@ -22,10 +22,10 @@
 
 <figure>
 {{ if $image }}
-  <a href="{{ $image.RelPermalink }}">
+  <a href="{{ $image.Permalink }}">
     {{ if $isWebp }}
       <img
-        src="{{ $image.RelPermalink }}"
+        src="{{ $image.Permalink }}"
         width="{{ $image.Width }}"
         height="{{ $image.Height }}"
         alt="{{ if $alt }}{{ $alt }}{{ else if $caption }}{{ $caption | markdownify | plainify }}{{ else }}&nbsp;{{ end }}"
@@ -33,8 +33,8 @@
     {{ else }}
       <img
         sizes="100vw"
-        srcset="{{ $small.RelPermalink }} 600w, {{ $medium.RelPermalink }} 900w, {{ $big.RelPermalink }} 1600w"
-        src="{{ $image.RelPermalink }}"
+        srcset="{{ $small.Permalink }} 600w, {{ $medium.Permalink }} 900w, {{ $big.Permalink }} 1600w"
+        src="{{ $image.Permalink }}"
         width="{{ $image.Width }}"
         height="{{ $image.Height }}"
         alt="{{ if $alt }}{{ $alt }}{{ else if $caption }}{{ $caption | markdownify | plainify }}{{ else }}&nbsp;{{ end }}"
